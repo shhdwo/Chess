@@ -1,6 +1,6 @@
 package com.capgemini.chess.figures;
 
-public enum Color {
+public enum PlayerColor {
 	WHITE, BLACK
 }
 
