@@ -2,6 +2,7 @@ package com.capgemini.chess;
 
 import org.junit.Test;
 import org.junit.Assert;
+import com.capgemini.chess.figures.*;
 
 public class BoardTest {
 	/**
@@ -10,27 +11,14 @@ public class BoardTest {
 	 */
 	
 	@Test
-	public void shouldReturnListOfFieldObjectsAfterInitialize() {
-		//given
-		Board aBoard = new Board();
-		//when
-		aBoard.initializeEmptyBoard();
-		Class<Field> expected = Field.class;
-		//then
-		for (Field f : aBoard.getBoard()) {
-			Assert.assertEquals(expected, f.getClass());
-		}
-	}
-	
-	@Test
-	public void shouldReturnListOfFieldObjectsWithColumnOfTypeColumnAssignedAfterInitialize() {
+	public void shouldReturnHashMapWithNullsAfterInitialize() {
 		//given
 		Board aBoard = new Board();
 		//when
 		aBoard.initializeEmptyBoard();
 		//then
-		for (Field f : aBoard.getBoard()) {
-			Assert.assertEquals(Column.class, f.getColumn().getClass());
+		for (ChessPiece piece : aBoard.getBoard().values()) {
+			Assert.assertEquals(null, piece);
 		}
 	}
 }

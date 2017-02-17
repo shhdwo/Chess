@@ -1,14 +1,12 @@
 package com.capgemini.chess;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import com.capgemini.chess.figures.*;
 
 public class Board {
 	
-	private List<Field> board = new ArrayList<Field>();
+	private Map<String, ChessPiece> board = new HashMap<>();
 	private Map<String, ChessPiece> initSetup = new HashMap<>();
 	
 	public Board() {
@@ -18,17 +16,17 @@ public class Board {
 	public void initializeEmptyBoard() {
 		for (int aRow = 8; aRow >= 1; aRow--) {
 			for (Column aColumn : Column.values()) {
-				addField(new Field(aColumn, aRow));
+				String position = aColumn.toString() + aRow;
+				board.put(position, null);
 			}
 		}
 	}
 	
 	public void fillUpBoard(Map<String, ChessPiece> initSetup) {
-		for (Field f : board) {
-			String position = f.getPosition();
+		for (String position : initSetup.keySet()) {
 			if (initSetup.containsKey(position)) {
 				ChessPiece piece = initSetup.get(position);
-				f.setOccupant(piece);
+				board.put(position, piece);
 			}
 		}
 	}
@@ -70,11 +68,7 @@ public class Board {
 		initSetup.put("H7", new Pawn(PlayerColor.BLACK));
 	}
 	
-	public void addField(Field aField) {
-		board.add(aField);
-	}
-	
-	public List<Field> getBoard() {
+	public Map<String, ChessPiece> getBoard() {
 		return board;
 	}
 	
