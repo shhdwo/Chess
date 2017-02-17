@@ -6,7 +6,7 @@ public interface Chess {
 	void initialize();
 	
 	//perform a move
-	void move();
+	void move(String from, String to);
 	
 	//writes out current state of board
 	void showBoard();

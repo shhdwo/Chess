@@ -14,12 +14,13 @@ public class Game implements Chess {
 	}
 	
 	//perform a move
-	public void move() {
+	public void move(String from, String to) {
 		
 	}
 	
 	//writes out current state of board
 	public void showBoard() {
+		int columnCounter = 0;
 		for (Field f : aBoard.getBoard()) {
 			String occupant = "";
 			String color = "";
@@ -32,7 +33,12 @@ public class Game implements Chess {
 					color = " of BLACK";
 				}
 			}
-			System.out.println(f.getPosition() + " " + occupant + color);
+			System.out.printf("%3s %6s %6s", f.getPosition(), occupant, color);
+			columnCounter++;
+			if (columnCounter == 8) {
+				System.out.println();
+				columnCounter = 0;
+			}
 		}
 	}
 	

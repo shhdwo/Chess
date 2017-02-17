@@ -16,8 +16,8 @@ public class Board {
 	}
 	
 	public void initializeEmptyBoard() {
-		for (Column aColumn : Column.values()) {
-			for (int aRow = 1; aRow <= 8; aRow++) {
+		for (int aRow = 8; aRow >= 1; aRow--) {
+			for (Column aColumn : Column.values()) {
 				addField(new Field(aColumn, aRow));
 			}
 		}
