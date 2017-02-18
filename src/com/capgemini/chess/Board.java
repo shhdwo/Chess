@@ -3,11 +3,13 @@ package com.capgemini.chess;
 import java.util.Map;
 import java.util.HashMap;
 import com.capgemini.chess.figures.*;
+import com.capgemini.chess.moves.GeneralConditions;
 
 public class Board {
 	
-	private Map<String, ChessPiece> board = new HashMap<>();
-	private Map<String, ChessPiece> initSetup = new HashMap<>();
+	private Map<Field, ChessPiece> board = new HashMap<>(96);
+	private Map<Field, ChessPiece> initSetup = new HashMap<>(96);
+	private Map<String, Field> stringToField = new HashMap<>(96);
 	
 	public Board() {
 		
@@ -16,64 +18,82 @@ public class Board {
 	public void initializeEmptyBoard() {
 		for (int aRow = 8; aRow >= 1; aRow--) {
 			for (Column aColumn : Column.values()) {
-				String position = aColumn.toString() + aRow;
-				board.put(position, null);
+				Field aField = new Field(aColumn, aRow);
+				String positionString = aColumn.toString() + aRow;
+				stringToField.put(positionString, aField);
+				board.put(aField, null);
 			}
 		}
 	}
 	
-	public void fillUpBoard(Map<String, ChessPiece> initSetup) {
-		for (String position : initSetup.keySet()) {
-			if (initSetup.containsKey(position)) {
-				ChessPiece piece = initSetup.get(position);
-				board.put(position, piece);
+	public void fillUpBoard(Map<Field, ChessPiece> initSetup) {
+		for (Field aField : initSetup.keySet()) {
+			if (board.containsKey(aField)) {
+				ChessPiece piece = initSetup.get(aField);
+				board.put(aField, piece);
 			}
 		}
+	}
+	
+	public void movePiece(String from, String to) {
+		Field fromField = getField(from);
+		Field toField = getField(to);
+		if (GeneralConditions.areMet(fromField, toField, board)) {
+			ChessPiece piece = board.get(fromField);
+			if (piece.isMovePossible(fromField, toField)) {
+				board.put(toField, piece);
+				board.put(fromField, null);
+			}
+		}
+	}
+	
+	public Field getField(String positionString) {
+		return stringToField.get(positionString);
+	}
+	
+	public Map<Field, ChessPiece> getBoard() {
+		return board;
+	}
+	
+	public Map<Field, ChessPiece> getInitSetup() {
+		return initSetup;
 	}
 	
 	public void makeInitSetup() {
 		//WHITE
-		initSetup.put("A1", new Rook(PlayerColor.WHITE));
-		initSetup.put("B1", new Knight(PlayerColor.WHITE));
-		initSetup.put("C1", new Bishop(PlayerColor.WHITE));
-		initSetup.put("D1", new Queen(PlayerColor.WHITE));
-		initSetup.put("E1", new King(PlayerColor.WHITE));
-		initSetup.put("F1", new Bishop(PlayerColor.WHITE));
-		initSetup.put("G1", new Knight(PlayerColor.WHITE));
-		initSetup.put("H1", new Rook(PlayerColor.WHITE));
-		initSetup.put("A2", new Pawn(PlayerColor.WHITE));
-		initSetup.put("B2", new Pawn(PlayerColor.WHITE));
-		initSetup.put("C2", new Pawn(PlayerColor.WHITE));
-		initSetup.put("D2", new Pawn(PlayerColor.WHITE));
-		initSetup.put("E2", new Pawn(PlayerColor.WHITE));
-		initSetup.put("F2", new Pawn(PlayerColor.WHITE));
-		initSetup.put("G2", new Pawn(PlayerColor.WHITE));
-		initSetup.put("H2", new Pawn(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("A1"), new Rook(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("B1"), new Knight(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("C1"), new Bishop(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("D1"), new Queen(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("E1"), new King(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("F1"), new Bishop(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("G1"), new Knight(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("H1"), new Rook(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("A2"), new Pawn(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("B2"), new Pawn(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("C2"), new Pawn(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("D2"), new Pawn(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("E2"), new Pawn(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("F2"), new Pawn(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("G2"), new Pawn(PlayerColor.WHITE));
+		initSetup.put(stringToField.get("H2"), new Pawn(PlayerColor.WHITE));
 		//BLACK
-		initSetup.put("A8", new Rook(PlayerColor.BLACK));
-		initSetup.put("B8", new Knight(PlayerColor.BLACK));
-		initSetup.put("C8", new Bishop(PlayerColor.BLACK));
-		initSetup.put("D8", new King(PlayerColor.BLACK));
-		initSetup.put("E8", new Queen(PlayerColor.BLACK));
-		initSetup.put("F8", new Bishop(PlayerColor.BLACK));
-		initSetup.put("G8", new Knight(PlayerColor.BLACK));
-		initSetup.put("H8", new Rook(PlayerColor.BLACK));
-		initSetup.put("A7", new Pawn(PlayerColor.BLACK));
-		initSetup.put("B7", new Pawn(PlayerColor.BLACK));
-		initSetup.put("C7", new Pawn(PlayerColor.BLACK));
-		initSetup.put("D7", new Pawn(PlayerColor.BLACK));
-		initSetup.put("E7", new Pawn(PlayerColor.BLACK));
-		initSetup.put("F7", new Pawn(PlayerColor.BLACK));
-		initSetup.put("G7", new Pawn(PlayerColor.BLACK));
-		initSetup.put("H7", new Pawn(PlayerColor.BLACK));
-	}
-	
-	public Map<String, ChessPiece> getBoard() {
-		return board;
-	}
-	
-	public Map<String, ChessPiece> getInitSetup() {
-		return initSetup;
+		initSetup.put(stringToField.get("A8"), new Rook(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("B8"), new Knight(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("C8"), new Bishop(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("D8"), new Queen(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("E8"), new King(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("F8"), new Bishop(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("G8"), new Knight(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("H8"), new Rook(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("A7"), new Pawn(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("B7"), new Pawn(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("C7"), new Pawn(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("D7"), new Pawn(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("E7"), new Pawn(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("F7"), new Pawn(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("G7"), new Pawn(PlayerColor.BLACK));
+		initSetup.put(stringToField.get("H7"), new Pawn(PlayerColor.BLACK));
 	}
 	
 }

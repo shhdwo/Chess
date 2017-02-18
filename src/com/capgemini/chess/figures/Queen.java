@@ -1,5 +1,7 @@
 package com.capgemini.chess.figures;
 
+import com.capgemini.chess.*;
+
 public class Queen extends ChessPiece {
 	
 	String name = "Queen";
@@ -8,7 +10,8 @@ public class Queen extends ChessPiece {
 		super(aColor);
 	}
 	
-	public boolean isMovePossible() {
+	@Override
+	public boolean isMovePossible(Field from, Field to) {
 		return true;
 	}
 	
