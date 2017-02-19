@@ -7,8 +7,15 @@ import java.util.Map;
 public class GeneralConditions {
 	
 	public static boolean areMet(Field from, Field to, Map<Field, ChessPiece> board) {
-		if (!fromFieldExists(from, board) || !toFieldExists(to, board)) return false;
-		else if (isDestinationOccupiedByFriend(from, to, board)) return false;
+		if (!fromFieldExists(from, board) || !toFieldExists(to, board)) {
+			throw new IllegalStateException("That field does not exist!\n");
+		}
+		else if (!isActualTurnPlayer()) {
+			throw new IllegalStateException("It's opposite player turn!\n");
+		}
+		else if (isDestinationOccupiedByFriend(from, to, board)) {
+			throw new IllegalStateException("Moving to location occupied by friend is forbidden!\n");
+		}
 		else return true;
 	}
 	
@@ -29,6 +36,10 @@ public class GeneralConditions {
 	private static boolean toFieldExists(Field to, Map<Field, ChessPiece> board) {
 		if (board.containsKey(to)) return true;
 		else return false;
+	}
+	
+	private static boolean isActualTurnPlayer() {
+		return true; //TODO actual player turn
 	}
 
 }

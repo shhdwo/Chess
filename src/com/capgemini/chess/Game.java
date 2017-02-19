@@ -1,12 +1,14 @@
 package com.capgemini.chess;
 
+import com.capgemini.chess.events.Check;
+import com.capgemini.chess.events.Checkmate;
 import com.capgemini.chess.figures.*;
 
 public class Game implements Chess {
 	
 	private Board aBoard = new Board();
 
-	//initializes board with figures(pieces)
+	//initializes board with pieces
 	public void initialize() {
 		aBoard.initializeEmptyBoard();
 		aBoard.makeInitSetup();
@@ -23,25 +25,30 @@ public class Game implements Chess {
 		for (int aRow = 8; aRow >= 1; aRow--) {
 			for (Column aColumn : Column.values()) {
 				String positionString = aColumn.toString() + aRow;
-				Field aField = aBoard.getField(positionString);
+				Field aField = aBoard.getFieldFromString(positionString);
 				ChessPiece piece = aBoard.getBoard().get(aField);
-				System.out.printf("%3s %6s %6s", positionString, checkName(piece), checkColor(piece));
+				System.out.printf("%3s %6s %9s", positionString, seeName(piece), seeColor(piece));
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 	
 	//checks if game end conditions are fulfilled
 	public boolean isFinished() {
-		return false;
+		if (Checkmate.isCheckmate(aBoard.getBoard(), PlayerColor.WHITE)) return true;
+		else if (Checkmate.isCheckmate(aBoard.getBoard(), PlayerColor.BLACK)) return true;
+		else return false;
 	}
 	
 	//checks if game is in state of check
 	public boolean isCheck() {
-		return false;
+		if (Check.isPlayerChecked(aBoard.getBoard(), PlayerColor.WHITE)) return true;
+		else if (Check.isPlayerChecked(aBoard.getBoard(), PlayerColor.BLACK)) return true;
+		else return false;
 	}
 	
-	private String checkColor(ChessPiece piece) {
+	private String seeColor(ChessPiece piece) {
 		String color = "";
 		if (piece != null) {
 			if (piece.getColor() == PlayerColor.WHITE) {
@@ -55,12 +62,13 @@ public class Game implements Chess {
 		else return color = "";
 	}
 	
-	private String checkName(ChessPiece piece) {
+	private String seeName(ChessPiece piece) {
 		String name = "";
 		if (piece != null) {
 			name = piece.getName();
 		}
 		return name;
 	}
+
 
 }

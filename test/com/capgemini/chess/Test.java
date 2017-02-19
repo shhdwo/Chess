@@ -7,11 +7,24 @@ public class Test {
 		Game aGame = new Game();
 		aGame.initialize();
 		aGame.showBoard();
-		aGame.move("A7", "A6");
-		System.out.println();
+		
+		//simulate moves:		
+		aGame.move("B1", "B3");
 		aGame.showBoard();
-		aGame.move("B7", "C7");
-		System.out.println();
+		
+		aGame.move("B1", "C3");
+		aGame.showBoard();
+		
+		aGame.move("C3", "D5");
+		aGame.showBoard();
+		
+		aGame.move("D5", "E7");
+		aGame.showBoard();
+		
+		aGame.move("G1", "F3");
+		aGame.showBoard();
+		
+		aGame.move("F3", "E1");
 		aGame.showBoard();
 		
 		System.out.println(Column.values()[2]);

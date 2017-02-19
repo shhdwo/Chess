@@ -19,5 +19,4 @@ public class King extends ChessPiece {
 	public String getName() {
 		return name;
 	}
-
 }

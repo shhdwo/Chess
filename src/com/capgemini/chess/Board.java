@@ -4,12 +4,16 @@ import java.util.Map;
 import java.util.HashMap;
 import com.capgemini.chess.figures.*;
 import com.capgemini.chess.moves.GeneralConditions;
+import com.capgemini.chess.events.*;
 
 public class Board {
 	
 	private Map<Field, ChessPiece> board = new HashMap<>(96);
 	private Map<Field, ChessPiece> initSetup = new HashMap<>(96);
 	private Map<String, Field> stringToField = new HashMap<>(96);
+	private Field kingOfWhiteLocation = null;
+	private Field kingOfBlackLocation = null;
+	//TODO actual player turn
 	
 	public Board() {
 		
@@ -31,23 +35,55 @@ public class Board {
 			if (board.containsKey(aField)) {
 				ChessPiece piece = initSetup.get(aField);
 				board.put(aField, piece);
+				if (piece instanceof King) {
+					PlayerColor colorOfKing = piece.getColor();
+					if (colorOfKing == PlayerColor.WHITE) {
+						kingOfWhiteLocation = aField;
+					}
+					else if (colorOfKing == PlayerColor.BLACK) {
+						kingOfBlackLocation = aField;
+					}
+				}
 			}
 		}
 	}
 	
 	public void movePiece(String from, String to) {
-		Field fromField = getField(from);
-		Field toField = getField(to);
-		if (GeneralConditions.areMet(fromField, toField, board)) {
-			ChessPiece piece = board.get(fromField);
-			if (piece.isMovePossible(fromField, toField)) {
-				board.put(toField, piece);
-				board.put(fromField, null);
+		try {
+			Field fromField = getFieldFromString(from);
+			Field toField = getFieldFromString(to);
+			if (GeneralConditions.areMet(fromField, toField, board)) {
+				ChessPiece piece = board.get(fromField);
+				ChessPiece destinationPiece = board.get(toField);
+				if (piece.isMovePossible(fromField, toField)) {
+					board.put(toField, piece);
+					board.put(fromField, null);
+					if (Check.isPlayerChecked(board, piece.getColor())) {
+						moveReverse(fromField, toField, destinationPiece);
+						throw new IllegalStateException("This move would leave your king in danger!\n");
+					}
+				}
 			}
 		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 	
-	public Field getField(String positionString) {
+	private void moveReverse(Field fromField, Field toField, ChessPiece destinationPiece) {
+		ChessPiece piece = board.get(toField);
+		board.put(fromField, piece);
+		board.put(toField, destinationPiece);
+	}
+	
+	public Field getKingLocation(PlayerColor color) {
+		if (color == PlayerColor.WHITE) return kingOfWhiteLocation;
+		else if (color == PlayerColor.BLACK) return kingOfBlackLocation;
+		else throw new IllegalStateException();
+	}
+	
+	public Field getFieldFromString(String positionString) {
 		return stringToField.get(positionString);
 	}
 	
