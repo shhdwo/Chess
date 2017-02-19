@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class GeneralConditions {
 	
-	public static boolean areMet(Field from, Field to, Map<Field, ChessPiece> board) {
+	public static boolean areMet(Field from, Field to, Map<Field, ChessPiece> board, PlayerColor turn) {
 		if (!fromFieldExists(from, board) || !toFieldExists(to, board)) {
 			throw new IllegalStateException("That field does not exist!\n");
 		}
-		else if (!isActualTurnPlayer()) {
+		else if (!isActualPlayerPiece(from, board, turn)) {
 			throw new IllegalStateException("It's opposite player turn!\n");
 		}
 		else if (isDestinationOccupiedByFriend(from, to, board)) {
@@ -38,8 +38,14 @@ public class GeneralConditions {
 		else return false;
 	}
 	
-	private static boolean isActualTurnPlayer() {
-		return true; //TODO actual player turn
+	private static boolean isActualPlayerPiece(Field from, Map<Field, ChessPiece> board, PlayerColor turn) {
+		ChessPiece piece = board.get(from);
+		if (piece == null) throw new IllegalStateException("There is no Piece to move!\n");
+		else {
+			PlayerColor pieceColor = piece.getColor();
+			if (pieceColor == turn) return true;
+			else return false;
+		}
 	}
 
 }

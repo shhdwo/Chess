@@ -4,30 +4,48 @@ public class Test {
 
 	public static void main(String[] args) {
 		
-		Game aGame = new Game();
-		aGame.initialize();
-		aGame.showBoard();
+		Game simulation = new Game();
+		simulation.initialize();
+		simulation.showBoard();
 		
 		//simulate moves:		
-		aGame.move("B1", "B3");
-		aGame.showBoard();
+		simulation.move("B1", "B3");
+		simulation.showBoard();
 		
-		aGame.move("B1", "C3");
-		aGame.showBoard();
+		simulation.move("B1", "C3");
+		simulation.showBoard();
 		
-		aGame.move("C3", "D5");
-		aGame.showBoard();
+		simulation.move("C3", "D5");
+		simulation.showBoard();
 		
-		aGame.move("D5", "E7");
-		aGame.showBoard();
+		simulation.move("D5", "E7");
+		simulation.showBoard();
 		
-		aGame.move("G1", "F3");
-		aGame.showBoard();
+		simulation.move("G1", "F3");
+		simulation.showBoard();
 		
-		aGame.move("F3", "E1");
-		aGame.showBoard();
+		simulation.move("F3", "E1");
+		simulation.showBoard();
 		
-		aGame.showHistory();
+		simulation.move("D7", "D5");
+		simulation.showBoard();
+		
+		simulation.move("C3", "B5");
+		simulation.showBoard();
+		
+		simulation.move("G8", "G6");
+		simulation.showBoard();
+		
+		simulation.move("G8", "F6");
+		simulation.showBoard();
+		
+		simulation.move("B5", "C7");
+		simulation.showBoard();
+		
+		simulation.move("F6", "D5");
+		simulation.showBoard();
+		
+		simulation.showHistory();
 
 	}
 

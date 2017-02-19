@@ -21,6 +21,16 @@ public class Move {
 		nextId++;
 	}
 	
+	@Override
+	public String toString() {
+		String pieceName = piece.getFullName();
+		String removedPieceName = "";
+		if (removedPiece != null) removedPieceName = removedPiece.getFullName();
+		String aString = String.format("| Id: %4s | From: %3s | To: %3s | Piece: %15s | Removed Piece: %15s |",
+				id, from.getPosition(), to.getPosition(), pieceName, removedPieceName);
+		return aString;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -40,15 +50,5 @@ public class Move {
 	public ChessPiece getRemovedPiece() {
 		return removedPiece;
 	}
-	
-	@Override
-	public String toString() {
-		String pieceName = piece.getFullName();
-		String removedPieceName = "";
-		String aString = "";
-		if (removedPiece != null) removedPieceName = removedPiece.getFullName();
-		aString = String.format("| Id: %4s | From: %3s | To: %3s | Piece: %15s | Removed Piece: %15s |",
-				id, from.getPosition(), to.getPosition(), pieceName, removedPieceName);
-		return aString;
-	}
+
 }

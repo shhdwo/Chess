@@ -15,7 +15,7 @@ public class Board {
 	private Field kingOfWhiteLocation = null;
 	private Field kingOfBlackLocation = null;
 	private MoveHistory history = new MoveHistory();
-	//TODO actual player turn
+	private PlayerColor actualPlayerTurn = PlayerColor.WHITE;
 	
 	public void initializeEmptyBoard() {
 		for (int aRow = 8; aRow >= 1; aRow--) {
@@ -33,15 +33,7 @@ public class Board {
 			if (board.containsKey(aField)) {
 				ChessPiece piece = initSetup.get(aField);
 				board.put(aField, piece);
-				if (piece instanceof King) {
-					PlayerColor colorOfKing = piece.getColor();
-					if (colorOfKing == PlayerColor.WHITE) {
-						kingOfWhiteLocation = aField;
-					}
-					else if (colorOfKing == PlayerColor.BLACK) {
-						kingOfBlackLocation = aField;
-					}
-				}
+				if (piece instanceof King) setKingLocation(aField, piece);
 			}
 		}
 	}
@@ -50,7 +42,7 @@ public class Board {
 		try {
 			Field fromField = getFieldFromString(from);
 			Field toField = getFieldFromString(to);
-			if (GeneralConditions.areMet(fromField, toField, board)) {
+			if (GeneralConditions.areMet(fromField, toField, board, actualPlayerTurn)) {
 				ChessPiece piece = board.get(fromField);
 				ChessPiece destinationPiece = board.get(toField);
 				if (piece.isMovePossible(fromField, toField)) {
@@ -60,14 +52,22 @@ public class Board {
 						moveReverse(fromField, toField, destinationPiece);
 						throw new IllegalStateException("This move would leave your king in danger!\n");
 					}
-					else addMoveToHistory(fromField, toField, piece, destinationPiece);
+					else {
+						if (piece instanceof King) setKingLocation(toField, piece);
+						flipActualPlayerTurn();
+						addMoveToHistory(fromField, toField, piece, destinationPiece);
+					}
 				}
 			}
 		}
-		catch (Exception e) {
+		catch (IllegalStateException e) {
 			System.out.println(e.getMessage());
 		}
-		
+	}
+	
+	private void flipActualPlayerTurn() {
+		if (actualPlayerTurn == PlayerColor.WHITE) actualPlayerTurn = PlayerColor.BLACK;
+		else if (actualPlayerTurn == PlayerColor.BLACK) actualPlayerTurn = PlayerColor.WHITE;
 	}
 	
 	private void moveReverse(Field fromField, Field toField, ChessPiece destinationPiece) {
@@ -79,6 +79,16 @@ public class Board {
 	private void addMoveToHistory(Field fromField, Field toField, ChessPiece piece, ChessPiece destinationPiece) {
 		Move aMove = new Move(fromField, toField, piece, destinationPiece);
 		history.addMove(aMove);
+	}
+	
+	private void setKingLocation(Field aField, ChessPiece piece) {
+		PlayerColor colorOfKing = piece.getColor();
+		if (colorOfKing == PlayerColor.WHITE) {
+			kingOfWhiteLocation = aField;
+		}
+		else if (colorOfKing == PlayerColor.BLACK) {
+			kingOfBlackLocation = aField;
+		}
 	}
 	
 	public Field getKingLocation(PlayerColor color) {
