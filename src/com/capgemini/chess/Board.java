@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.capgemini.chess.figures.*;
 import com.capgemini.chess.moves.GeneralConditions;
 import com.capgemini.chess.events.*;
+import com.capgemini.chess.moves.*;
 
 public class Board {
 	
@@ -13,11 +14,8 @@ public class Board {
 	private Map<String, Field> stringToField = new HashMap<>(96);
 	private Field kingOfWhiteLocation = null;
 	private Field kingOfBlackLocation = null;
+	private MoveHistory history = new MoveHistory();
 	//TODO actual player turn
-	
-	public Board() {
-		
-	}
 	
 	public void initializeEmptyBoard() {
 		for (int aRow = 8; aRow >= 1; aRow--) {
@@ -62,6 +60,7 @@ public class Board {
 						moveReverse(fromField, toField, destinationPiece);
 						throw new IllegalStateException("This move would leave your king in danger!\n");
 					}
+					else addMoveToHistory(fromField, toField, piece, destinationPiece);
 				}
 			}
 		}
@@ -75,6 +74,11 @@ public class Board {
 		ChessPiece piece = board.get(toField);
 		board.put(fromField, piece);
 		board.put(toField, destinationPiece);
+	}
+	
+	private void addMoveToHistory(Field fromField, Field toField, ChessPiece piece, ChessPiece destinationPiece) {
+		Move aMove = new Move(fromField, toField, piece, destinationPiece);
+		history.addMove(aMove);
 	}
 	
 	public Field getKingLocation(PlayerColor color) {
@@ -93,6 +97,10 @@ public class Board {
 	
 	public Map<Field, ChessPiece> getInitSetup() {
 		return initSetup;
+	}
+	
+	public MoveHistory getMoveHistory() {
+		return history;
 	}
 	
 	public void makeInitSetup() {

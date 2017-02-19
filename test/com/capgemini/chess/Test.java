@@ -27,7 +27,7 @@ public class Test {
 		aGame.move("F3", "E1");
 		aGame.showBoard();
 		
-		System.out.println(Column.values()[2]);
+		aGame.showHistory();
 
 	}
 

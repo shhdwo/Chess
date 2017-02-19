@@ -5,7 +5,7 @@ import java.util.Map;
 import com.capgemini.chess.*;
 import com.capgemini.chess.figures.ChessPiece;
 
-public class Moves {
+public class PossibleMoves {
 	
 	public static boolean castling(Field from, Field to, Map<Field, ChessPiece> board) {
 		return true;

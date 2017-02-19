@@ -20,4 +20,7 @@ public class Bishop extends ChessPiece {
 		return name;
 	}
 	
+	public String getFullName() {
+		return name + " of " + getColor();
+	}
 }

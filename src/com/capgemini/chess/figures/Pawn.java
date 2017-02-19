@@ -19,4 +19,8 @@ public class Pawn extends ChessPiece {
 	public String getName() {
 		return name;
 	}
+	
+	public String getFullName() {
+		return name + " of " + getColor();
+	}
 }

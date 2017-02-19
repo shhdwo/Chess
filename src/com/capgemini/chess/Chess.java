@@ -11,6 +11,9 @@ public interface Chess {
 	//writes out to console current state of board
 	void showBoard();
 	
+	//writes out move history
+	public void showHistory();
+	
 	//checks if game end conditions are fulfilled
 	boolean isFinished();
 	

@@ -22,5 +22,9 @@ public abstract class ChessPiece {
 	public String getName() {
 		return name;
 	}
+	
+	public String getFullName() {
+		return name;
+	}
 
 }
