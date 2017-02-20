@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.capgemini.chess.*;
 import com.capgemini.chess.moves.MoveHistory;
+import com.capgemini.chess.moves.PossibleMoves;
 
 public class Queen extends ChessPiece {
 	
@@ -15,7 +16,9 @@ public class Queen extends ChessPiece {
 	
 	@Override
 	public boolean isMovePossible(Field from, Field to, Map<Field, ChessPiece> board, Map<String, Field> stringToField, MoveHistory history) {
-		return true;
+		if (PossibleMoves.diagonally(from, to, board, stringToField)) return true;
+		else if (PossibleMoves.rankOrFile(from, to, board, stringToField)) return true;
+		else throw new IllegalStateException("Queens can't move like that!\n");
 	}
 	
 	@Override
