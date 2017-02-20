@@ -48,14 +48,22 @@ public class Board {
 				if (piece.isMovePossible(fromField, toField, board, stringToField, history)) {
 					board.put(toField, piece);
 					board.put(fromField, null);
+					Field enPassantField = null;
+					ChessPiece enPassantPiece = null;
+					if (toField.getEnPassantFlag()) {
+						enPassantField = history.getHistory().get(history.getHistory().size()-1).getTo();
+						enPassantPiece = history.getHistory().get(history.getHistory().size()-1).getPiece();
+						board.put(enPassantField, null);
+						toField.setEnPassantFlag(false);
+					}
 					if (Check.isPlayerChecked(board, actualPlayerTurn)) {
-						moveReverse(fromField, toField, destinationPiece);
+						moveReverse(fromField, toField, destinationPiece, enPassantField, enPassantPiece);
 						throw new IllegalStateException("This move would leave your king in danger!\n");
 					}
 					else {
 						if (piece instanceof King) setKingLocation(toField, piece);
 						flipActualPlayerTurn();
-						addMoveToHistory(fromField, toField, piece, destinationPiece);
+						addMoveToHistory(fromField, toField, piece, destinationPiece, enPassantPiece);
 					}
 				}
 			}
@@ -70,14 +78,17 @@ public class Board {
 		else if (actualPlayerTurn == PlayerColor.BLACK) actualPlayerTurn = PlayerColor.WHITE;
 	}
 	
-	private void moveReverse(Field fromField, Field toField, ChessPiece destinationPiece) {
+	private void moveReverse(Field fromField, Field toField, ChessPiece destinationPiece, Field enPassantField, ChessPiece enPassantPiece) {
 		ChessPiece piece = board.get(toField);
 		board.put(fromField, piece);
 		board.put(toField, destinationPiece);
+		if (enPassantField != null) board.put(enPassantField, enPassantPiece);
 	}
 	
-	private void addMoveToHistory(Field fromField, Field toField, ChessPiece piece, ChessPiece destinationPiece) {
-		Move aMove = new Move(fromField, toField, piece, destinationPiece);
+	private void addMoveToHistory(Field fromField, Field toField, ChessPiece piece, ChessPiece destinationPiece, ChessPiece enPassantPiece) {
+		Move aMove = null;
+		if (enPassantPiece != null) aMove = new Move(fromField, toField, piece, enPassantPiece);
+		else aMove = new Move(fromField, toField, piece, destinationPiece);
 		history.addMove(aMove);
 	}
 	

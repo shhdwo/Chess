@@ -17,6 +17,7 @@ public class King extends ChessPiece {
 	@Override
 	public boolean isMovePossible(Field from, Field to, Map<Field, ChessPiece> board, Map<String, Field> stringToField, MoveHistory history) {
 		if (PossibleMoves.oneSquareAnyDirection(from, to)) return true;
+		if (PossibleMoves.castling(from, to, board, stringToField)) return true;
 		else throw new IllegalStateException("Kings can't move like that!\n");
 	}
 	

@@ -65,7 +65,7 @@ public class PossibleMoves {
 		return false;
 	}
 	
-	public static boolean enPassant(Field from, Field to, Map<Field, ChessPiece> board, MoveHistory history) {
+	public static boolean enPassant(Field from, Field to, Map<Field, ChessPiece> board, MoveHistory history) { //bicie w przelocie
 		int historySize = history.getHistory().size();
 		if (historySize > 0) {
 			Move previousMove = history.getHistory().get(historySize - 1);
@@ -81,12 +81,18 @@ public class PossibleMoves {
 					&& previousMove.getTo().getRow() == from.getRow()
 					&& (toColumn == fromColumn + 1 || toColumn == fromColumn - 1)) {
 				if (fromColor == PlayerColor.WHITE && toRow == fromRow + 1 
-						&& previousMove.getFrom().getRow() == fromRow + 2) return true;
+						&& previousMove.getFrom().getRow() == fromRow + 2) {
+					to.setEnPassantFlag(true);
+					return true;
+				}
 				else if (fromColor == PlayerColor.BLACK && toRow == fromRow - 1 
-						&& previousMove.getFrom().getRow() == fromRow - 2) return true;
+						&& previousMove.getFrom().getRow() == fromRow - 2) {
+					to.setEnPassantFlag(true);
+					return true;
+				}
 			}
 		}
-		return false; //TODO nie usuwa przeciwnego pionka
+		return false;
 	}
 	
 	public static boolean forwardDiagonallyCapturing(Field from, Field to, Map<Field, ChessPiece> board) {

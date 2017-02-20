@@ -4,6 +4,7 @@ public class Field {
 	
 	private Column aColumn = null;
 	private int aRow = 0;
+	private boolean enPassantFlag = false;
 
 	public Field(Column aColumn, int aRow) {
 		this.aColumn = aColumn;
@@ -20,5 +21,13 @@ public class Field {
 
 	public String getPosition() {
 		return aColumn.toString() + aRow;
+	}
+	
+	public boolean getEnPassantFlag() {
+		return enPassantFlag;
+	}
+	
+	public void setEnPassantFlag(boolean enPassantflag) {
+		this.enPassantFlag = enPassantflag;
 	}
 }
