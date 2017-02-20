@@ -45,10 +45,10 @@ public class Board {
 			if (GeneralConditions.areMet(fromField, toField, board, actualPlayerTurn)) {
 				ChessPiece piece = board.get(fromField);
 				ChessPiece destinationPiece = board.get(toField);
-				if (piece.isMovePossible(fromField, toField)) {
+				if (piece.isMovePossible(fromField, toField, board, stringToField, history)) {
 					board.put(toField, piece);
 					board.put(fromField, null);
-					if (Check.isPlayerChecked(board, piece.getColor())) {
+					if (Check.isPlayerChecked(board, actualPlayerTurn)) {
 						moveReverse(fromField, toField, destinationPiece);
 						throw new IllegalStateException("This move would leave your king in danger!\n");
 					}

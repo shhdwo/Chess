@@ -45,6 +45,33 @@ public class Test {
 		simulation.move("F6", "D5");
 		simulation.showBoard();
 		
+		simulation.move("E8", "D7");
+		simulation.showBoard();
+		
+		simulation.move("A2", "A4");
+		simulation.showBoard();
+		
+		simulation.move("A2", "A4");
+		simulation.showBoard();
+		
+		simulation.move("A7", "A6");
+		simulation.showBoard();
+		
+		simulation.move("A1", "A3");
+		simulation.showBoard();
+		
+		simulation.move("A8", "A7");
+		simulation.showBoard();
+		
+		simulation.move("C7", "A6");
+		simulation.showBoard();
+		
+		simulation.move("A7", "A6");
+		simulation.showBoard();
+		
+		simulation.move("A3", "G3");
+		simulation.showBoard();
+		
 		simulation.showHistory();
 
 	}

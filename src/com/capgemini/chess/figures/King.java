@@ -1,6 +1,10 @@
 package com.capgemini.chess.figures;
 
+import java.util.Map;
+
 import com.capgemini.chess.*;
+import com.capgemini.chess.moves.MoveHistory;
+import com.capgemini.chess.moves.PossibleMoves;
 
 public class King extends ChessPiece {
 	
@@ -11,8 +15,9 @@ public class King extends ChessPiece {
 	}
 	
 	@Override
-	public boolean isMovePossible(Field from, Field to) {
-		return true;
+	public boolean isMovePossible(Field from, Field to, Map<Field, ChessPiece> board, Map<String, Field> stringToField, MoveHistory history) {
+		if (PossibleMoves.oneSquareAnyDirection(from, to)) return true;
+		else throw new IllegalStateException("Kings can't move like that!\n");
 	}
 	
 	@Override

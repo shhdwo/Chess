@@ -1,6 +1,8 @@
 package com.capgemini.chess.figures;
 
 import com.capgemini.chess.*;
+import com.capgemini.chess.moves.*;
+import java.util.Map;
 
 public abstract class ChessPiece {
 	
@@ -11,7 +13,7 @@ public abstract class ChessPiece {
 		this.aColor = aColor;
 	}
 	
-	public boolean isMovePossible(Field from, Field to) {
+	public boolean isMovePossible(Field from, Field to, Map<Field, ChessPiece> board, Map<String, Field> stringToField, MoveHistory history) {
 		return false;
 	}
 	

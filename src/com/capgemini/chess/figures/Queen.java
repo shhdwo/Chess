@@ -1,6 +1,9 @@
 package com.capgemini.chess.figures;
 
+import java.util.Map;
+
 import com.capgemini.chess.*;
+import com.capgemini.chess.moves.MoveHistory;
 
 public class Queen extends ChessPiece {
 	
@@ -11,7 +14,7 @@ public class Queen extends ChessPiece {
 	}
 	
 	@Override
-	public boolean isMovePossible(Field from, Field to) {
+	public boolean isMovePossible(Field from, Field to, Map<Field, ChessPiece> board, Map<String, Field> stringToField, MoveHistory history) {
 		return true;
 	}
 	
