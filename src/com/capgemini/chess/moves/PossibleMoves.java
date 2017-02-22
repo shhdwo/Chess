@@ -8,7 +8,7 @@ import com.capgemini.chess.figures.PlayerColor;
 
 public class PossibleMoves {
 	
-	public static boolean castling(Field from, Field to, Map<Field, ChessPiece> board, Map<String, Field> stringToField) {
+	public static boolean castling(Field from, Field to, Map<Field, ChessPiece> board, Map<String, Field> stringToField, MoveHistory history) {
 		return false; //TODO castling
 	}
 	
@@ -128,7 +128,7 @@ public class PossibleMoves {
 		return false;
 	}
 	
-	public static boolean forwardTwiceWithoutCapturing(Field from, Field to, Map<Field, ChessPiece> board) {
+	public static boolean forwardTwiceWithoutCapturing(Field from, Field to, Map<Field, ChessPiece> board, Map<String, Field> stringToField) {
 		int fromColumn = from.getColumn().getId();
 		int fromRow = from.getRow();
 		int toColumn = to.getColumn().getId();
@@ -136,8 +136,11 @@ public class PossibleMoves {
 		ChessPiece piece = board.get(from);
 		ChessPiece destinationPiece = board.get(to);
 		if (destinationPiece == null && toColumn == fromColumn) {
-			if (piece.getColor() == PlayerColor.WHITE && fromRow == 2 && toRow == 4) return true;
-			else if (piece.getColor() == PlayerColor.BLACK && fromRow == 7 && toRow == 5) return true;
+			String columnString = to.getColumn().toString();
+			if (piece.getColor() == PlayerColor.WHITE && fromRow == 2 && toRow == 4 
+					&& board.get(stringToField.get(columnString + 3)) == null) return true;
+			else if (piece.getColor() == PlayerColor.BLACK && fromRow == 7 && toRow == 5 
+					&& board.get(stringToField.get(columnString + 6)) == null) return true;
 		}
 		return false;
 	}

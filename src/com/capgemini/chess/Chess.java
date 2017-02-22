@@ -17,7 +17,4 @@ public interface Chess {
 	//checks if game end conditions are fulfilled
 	boolean isFinished();
 	
-	//checks if game is in state of check
-	boolean isCheck();
-	
 }

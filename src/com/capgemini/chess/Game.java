@@ -1,6 +1,5 @@
 package com.capgemini.chess;
 
-import com.capgemini.chess.events.Check;
 import com.capgemini.chess.events.Checkmate;
 import com.capgemini.chess.figures.*;
 import com.capgemini.chess.moves.*;
@@ -46,15 +45,7 @@ public class Game implements Chess {
 	
 	//checks if game end conditions are fulfilled
 	public boolean isFinished() {
-		if (Checkmate.isCheckmate(aBoard.getBoard(), PlayerColor.WHITE)) return true;
-		else if (Checkmate.isCheckmate(aBoard.getBoard(), PlayerColor.BLACK)) return true;
-		else return false;
-	}
-	
-	//checks if game is in state of check
-	public boolean isCheck() {
-		if (Check.isPlayerChecked(aBoard.getBoard(), PlayerColor.WHITE)) return true;
-		else if (Check.isPlayerChecked(aBoard.getBoard(), PlayerColor.BLACK)) return true;
+		if (Checkmate.isCheckmate(aBoard)) return true;
 		else return false;
 	}
 	
