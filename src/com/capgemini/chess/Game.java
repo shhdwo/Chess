@@ -1,6 +1,5 @@
 package com.capgemini.chess;
 
-import com.capgemini.chess.events.Checkmate;
 import com.capgemini.chess.figures.*;
 import com.capgemini.chess.moves.*;
 import java.util.List;
@@ -41,12 +40,6 @@ public class Game implements Chess {
 		for (Move aMove : history) {
 			System.out.println(aMove.toString());
 		}
-	}
-	
-	//checks if game end conditions are fulfilled
-	public boolean isFinished() {
-		if (Checkmate.isCheckmate(aBoard)) return true;
-		else return false;
 	}
 	
 	private String seeName(ChessPiece piece) {

@@ -5,6 +5,7 @@ import java.util.Map;
 import com.capgemini.chess.*;
 import com.capgemini.chess.moves.MoveHistory;
 import com.capgemini.chess.moves.PossibleMoves;
+import com.capgemini.exception.*;
 
 public class Pawn extends ChessPiece {
 	
@@ -20,7 +21,7 @@ public class Pawn extends ChessPiece {
 		else if (PossibleMoves.forwardTwiceWithoutCapturing(from, to, board, stringToField)) return true;
 		else if (PossibleMoves.forwardDiagonallyCapturing(from, to, board)) return true;
 		else if (PossibleMoves.enPassant(from, to, board, history)) return true;
-		else throw new IllegalStateException("Pawns can't move like that!\n");
+		else throw new IllegalMoveException("Pawns can't move like that!\n");
 	}
 	
 	@Override

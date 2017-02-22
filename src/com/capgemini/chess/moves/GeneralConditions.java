@@ -3,18 +3,19 @@ package com.capgemini.chess.moves;
 import com.capgemini.chess.figures.*;
 import com.capgemini.chess.*;
 import java.util.Map;
+import com.capgemini.exception.*;
 
 public class GeneralConditions {
 	
 	public static boolean areMet(Field from, Field to, Map<Field, ChessPiece> board, PlayerColor turn) {
 		if (!fromFieldExists(from, board) || !toFieldExists(to, board)) {
-			throw new IllegalStateException("That field does not exist!\n");
+			throw new FieldDoesntExistException("That field does not exist!\n");
 		}
 		else if (!isActualPlayerPiece(from, board, turn)) {
-			throw new IllegalStateException("It's opposite player turn!\n");
+			throw new OppositePlayerTurnException("It's opposite player turn!\n");
 		}
 		else if (isDestinationOccupiedByFriend(from, to, board)) {
-			throw new IllegalStateException("Moving to location occupied by friend is forbidden!\n");
+			throw new OccupiedByFriendException("Moving to location occupied by friend is forbidden!\n");
 		}
 		else return true;
 	}
@@ -40,7 +41,7 @@ public class GeneralConditions {
 	
 	private static boolean isActualPlayerPiece(Field from, Map<Field, ChessPiece> board, PlayerColor turn) {
 		ChessPiece piece = board.get(from);
-		if (piece == null) throw new IllegalStateException("There is no Piece to move!\n");
+		if (piece == null) throw new NoPieceToMoveException("There is no Piece to move!\n");
 		else {
 			PlayerColor pieceColor = piece.getColor();
 			if (pieceColor == turn) return true;

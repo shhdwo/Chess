@@ -4,7 +4,7 @@ import com.capgemini.chess.Chess;
 import com.capgemini.chess.Game;
 import java.util.Scanner;
 
-public class Play {
+public class PlayChess {
 
 	public static void main(String[] args) {
 		
@@ -30,18 +30,21 @@ public class Play {
 	}
 	
 	private static void gameLoop(Chess simulation, Scanner in) {
+		String from = "";
+		String to = "";
 		do {
 			System.out.println("Z jakiego pola przeniesc figure?");
-			String from = in.nextLine();
+			from = in.nextLine();
+			if (from.equals("exit")) break;
 			System.out.println("Na jakie pole?");
-			String to = in.nextLine();
+			to = in.nextLine();
 			System.out.println("\n");
 			simulation.move(from, to);
 			System.out.println("\nHistoria ruchow:");
 			simulation.showHistory();
 			System.out.println("\n\n\n");
 			simulation.showBoard();
-		} while (!simulation.isFinished()); //TODO never finishes (checkmate to be implemented)
+		} while (true);
 	}
 
 }

@@ -14,7 +14,4 @@ public interface Chess {
 	//writes out move history
 	public void showHistory();
 	
-	//checks if game end conditions are fulfilled
-	boolean isFinished();
-	
 }

@@ -1,7 +1,7 @@
-package com.capgemini.chess.events;
+package com.capgemini.chess;
 
 import java.util.Map;
-import com.capgemini.chess.Field;
+
 import com.capgemini.chess.figures.*;
 import com.capgemini.chess.moves.*;
 

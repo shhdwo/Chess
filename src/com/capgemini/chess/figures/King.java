@@ -5,6 +5,7 @@ import java.util.Map;
 import com.capgemini.chess.*;
 import com.capgemini.chess.moves.MoveHistory;
 import com.capgemini.chess.moves.PossibleMoves;
+import com.capgemini.exception.*;
 
 public class King extends ChessPiece {
 	
@@ -18,7 +19,7 @@ public class King extends ChessPiece {
 	public boolean isMovePossible(Field from, Field to, Map<Field, ChessPiece> board, Map<String, Field> stringToField, MoveHistory history) {
 		if (PossibleMoves.oneSquareAnyDirection(from, to)) return true;
 		if (PossibleMoves.castling(from, to, board, stringToField, history)) return true;
-		else throw new IllegalStateException("Kings can't move like that!\n");
+		else throw new IllegalMoveException("Kings can't move like that!\n");
 	}
 	
 	@Override
